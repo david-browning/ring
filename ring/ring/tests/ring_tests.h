@@ -51,20 +51,20 @@ namespace ring::test
 		 This implicitly tests advancing the ring pointer and that the pointer is
 		 correct.
 		 */
-		bool test_move_constructor();
+		bool test_move_constructor() const;
 
 		/*
 		 Tests that advancing the ring pointer repeatedly will keep the pointer
 		 pointing to the correct item.
 		 Tests that the ring pointer will eventually loop around.
 		 */
-		bool test_advance();
+		bool test_advance() const;
 
 		/*
 		 Tests that retreating the ring pointer repeatedly will keep the pointer
 		 pointing to the correct item.
 		 Tests that the ring pointer will eventually loop around.
 		 */
-		bool test_retreat();
+		bool test_retreat() const;
 	};
 }

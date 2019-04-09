@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tests\ring_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ring.h" />

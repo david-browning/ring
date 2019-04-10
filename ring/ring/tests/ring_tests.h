@@ -18,16 +18,6 @@ namespace ring::test
 		bool test_capacity_constructor() const;
 
 		/*
-		 Tests creating a ring from an iterator.
-		 Checks the size.
-		 Iterates through the ring to ensure the order is the same as the 
-		 iterator.
-		 This implicitly tests advancing the ring pointer and that the pointer is
-		 correct.
-		 */
-		bool test_iterator_constructor() const;
-
-		/*
 		 Tests creating a ring from an initializer list.
 		 Checks the size.
 		 Iterates through the ring to ensure the order is the same as the

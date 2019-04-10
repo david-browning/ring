@@ -5,7 +5,8 @@ namespace std
 {
 	/*
 	 A ring holds a fixed number of elements and uses a pointer to indicate the
-	 current item.
+	 current item. A ring must contain at least 1 element. Constructors check 
+	 this requirement and throws std::length_error if there are 0 elements.
 	 The pointer can be advanced to access the next element in a clockwise
 	 order. A ring has does not have a first or last element. Continually 
 	 advancing the ring pointer will bring the pointer back to where is 

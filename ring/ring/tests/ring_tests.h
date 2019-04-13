@@ -9,13 +9,13 @@ namespace ring::test
 	class ring_tests : public itest_appartatus
 	{
 		public:
-		virtual bool test() const;
+		virtual void test() const;
 
 		private:
 		/*
 		 Tests creating an empty ring and checking that the size is correct.
 		 */
-		bool test_capacity_constructor() const;
+		void test_capacity_constructor() const;
 
 		/*
 		 Tests creating a ring from an initializer list.
@@ -25,7 +25,7 @@ namespace ring::test
 		 This implicitly tests advancing the ring pointer and that the pointer is
 		 correct.
 		 */
-		bool test_il_constructor() const;
+		void test_il_constructor() const;
 
 		/*
 		 Tests the deep copy constructor.
@@ -33,7 +33,7 @@ namespace ring::test
 		 This implicitly tests advancing the ring pointer and that the pointer is
 		 correct.
 		 */
-		bool test_copy_constructor() const;
+		void test_copy_constructor() const;
 
 		/*
 		 Tests moving a ring.
@@ -41,20 +41,20 @@ namespace ring::test
 		 This implicitly tests advancing the ring pointer and that the pointer is
 		 correct.
 		 */
-		bool test_move_constructor() const;
+		void test_move_constructor() const;
 
 		/*
 		 Tests that advancing the ring pointer repeatedly will keep the pointer
 		 pointing to the correct item.
 		 Tests that the ring pointer will eventually loop around.
 		 */
-		bool test_advance() const;
+		void test_advance() const;
 
 		/*
 		 Tests that retreating the ring pointer repeatedly will keep the pointer
 		 pointing to the correct item.
 		 Tests that the ring pointer will eventually loop around.
 		 */
-		bool test_retreat() const;
+		void test_retreat() const;
 	};
 }

@@ -1,22 +1,23 @@
 #include "ring_tests.h"
 #include "..\include\ring.h"
 
-bool ring::test::ring_tests::test() const
+void ring::test::ring_tests::test() const
 {
-	return this->test_capacity_constructor() &&
-		this->test_il_constructor() &&
-		this->test_copy_constructor() &&
-		this->test_move_constructor() &&
-		this->test_advance() &&
-		this->test_retreat();
+	test_capacity_constructor();
+	test_il_constructor();
+	test_copy_constructor();
+	test_move_constructor();
+	test_advance();
+	test_retreat();
 }
 
-bool ring::test::ring_tests::test_capacity_constructor() const
+void ring::test::ring_tests::test_capacity_constructor() const
 {
 	std::ring<int> r{ 8 };
 	if (r.size() != 8)
 	{
-		return false;
+		throw std::length_error(
+			"The ring does not have the correct size.");
 	}
 
 	//Rings do not allow size 0.
@@ -32,13 +33,12 @@ bool ring::test::ring_tests::test_capacity_constructor() const
 
 	if (!caughtException)
 	{
-		return false;
+		throw std::length_error(
+			"The ring allowed an invalid size when constructing");
 	}
-
-	return true;
 }
 
-bool ring::test::ring_tests::test_il_constructor() const
+void ring::test::ring_tests::test_il_constructor() const
 {
 	//Create a ring using an initializer list.
 	std::initializer_list<int> il = { 0, 1, 2, 3, 4, 5, 6 };
@@ -47,7 +47,8 @@ bool ring::test::ring_tests::test_il_constructor() const
 	//Check its size
 	if (r.size() != il.size())
 	{
-		return false;
+		throw std::length_error(
+			"The ring does not have the correct size.");
 	}
 
 	//Check the order
@@ -55,7 +56,7 @@ bool ring::test::ring_tests::test_il_constructor() const
 	{
 		if (r.current() != expectedValue)
 		{
-			return false;
+			throw std::logic_error("The ring is not in the correct order");
 		}
 
 		r.advance();
@@ -77,13 +78,12 @@ bool ring::test::ring_tests::test_il_constructor() const
 
 	if (!caughtException)
 	{
-		return false;
+		throw std::length_error(
+			"The ring allowed an invalid size when constructing");
 	}
-
-	return true;
 }
 
-bool ring::test::ring_tests::test_copy_constructor() const
+void ring::test::ring_tests::test_copy_constructor() const
 {
 	//Create a ring
 	std::vector<int> ringInput{ 0, 1, 2, 3, 4, 5, 6 };
@@ -95,7 +95,8 @@ bool ring::test::ring_tests::test_copy_constructor() const
 	//Check the size.
 	if (ringCopied.size() != r.size())
 	{
-		return false;
+		throw std::length_error(
+			"The ring does not have the correct size.");
 	}
 
 	//Iterate through both rings, checking that their order is the same.
@@ -103,17 +104,15 @@ bool ring::test::ring_tests::test_copy_constructor() const
 	{
 		if (r.current() != expectedValue || ringCopied.current() != expectedValue)
 		{
-			return false;
+			throw std::logic_error("The ring is not in the correct order");
 		}
 
 		r.advance();
 		ringCopied.advance();
 	}
-
-	return true;
 }
 
-bool ring::test::ring_tests::test_move_constructor() const
+void ring::test::ring_tests::test_move_constructor() const
 {
 	//Create a ring.
 	std::vector<int> ringInput{ 0, 1, 2, 3, 4, 5, 6 };
@@ -125,13 +124,15 @@ bool ring::test::ring_tests::test_move_constructor() const
 	//As a sanity check, the old ring should have size zero.
 	if (r.size() != 0)
 	{
-		return false;
+		throw std::length_error(
+			"The old ring should have 0 size.");
 	}
 
 	//Check the size
 	if (ringMoved.size() != ringInput.size())
 	{
-		return false;
+		throw std::length_error(
+			"The ring does not have the correct size.");
 	}
 
 	//Iterate through the ring, checking if the order matches the original.
@@ -140,7 +141,7 @@ bool ring::test::ring_tests::test_move_constructor() const
 		auto actualValue = ringMoved.current();
 		if (actualValue != expectedValue)
 		{
-			return false;
+			throw std::logic_error("The ring is not in the correct order");
 		}
 
 		ringMoved.advance();
@@ -148,13 +149,11 @@ bool ring::test::ring_tests::test_move_constructor() const
 
 	if (ringMoved.current() != ringInput.front())
 	{
-		return false;
+		throw std::logic_error("The ring is not in the correct order");
 	}
-
-	return true;
 }
 
-bool ring::test::ring_tests::test_advance() const
+void ring::test::ring_tests::test_advance() const
 {
 	//Create a ring.
 	std::vector<int> ringInput{ 0, 1, 2, 3, 4, 5, 6 };
@@ -164,7 +163,7 @@ bool ring::test::ring_tests::test_advance() const
 		auto actualValue = r.current();
 		if (actualValue != expectedValue)
 		{
-			return false;
+			throw std::logic_error("The ring is not in the correct order");
 		}
 
 		r.advance();
@@ -172,13 +171,11 @@ bool ring::test::ring_tests::test_advance() const
 
 	if (r.current() != ringInput.front())
 	{
-		return false;
+		throw std::logic_error("The ring is not in the correct order");
 	}
-
-	return true;
 }
 
-bool ring::test::ring_tests::test_retreat() const
+void ring::test::ring_tests::test_retreat() const
 {
 	//Create a ring.
 	std::vector<int> ringInput{ 0, 1, 2, 3, 4, 5, 6 };
@@ -196,9 +193,7 @@ bool ring::test::ring_tests::test_retreat() const
 
 		if (expectedValue != actualValue)
 		{
-			return false;
+			throw std::logic_error("The ring is not in the correct order");
 		}
 	}
-
-	return true;
 }

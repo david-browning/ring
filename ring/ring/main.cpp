@@ -5,7 +5,7 @@
 int main(int argc, char** argv)
 {
 	ring::test::ring_tests tests;
-	assert(tests.test() == true);
+	tests.test();
 
 	return 0;
 }

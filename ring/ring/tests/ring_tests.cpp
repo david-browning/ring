@@ -13,7 +13,7 @@ void ring::test::ring_tests::test() const
 
 void ring::test::ring_tests::test_capacity_constructor() const
 {
-	std::ring<int> r{ 8 };
+	std::ring<int> r(8);
 	if (r.size() != 8)
 	{
 		throw std::length_error(
@@ -24,9 +24,9 @@ void ring::test::ring_tests::test_capacity_constructor() const
 	bool caughtException = false;
 	try
 	{
-		std::ring<int> emptyRing{ 0 };
+		std::ring<int> emptyRing(0);
 	}
-	catch (std::length_error const&)
+	catch (std::invalid_argument const&)
 	{
 		caughtException = true;
 	}
@@ -42,7 +42,7 @@ void ring::test::ring_tests::test_il_constructor() const
 {
 	//Create a ring using an initializer list.
 	std::initializer_list<int> il = { 0, 1, 2, 3, 4, 5, 6 };
-	std::ring<int> r{ il };
+	std::ring<int> r(il);
 
 	//Check its size
 	if (r.size() != il.size())
@@ -69,9 +69,9 @@ void ring::test::ring_tests::test_il_constructor() const
 	//Catch the exception.
 	try
 	{
-		std::ring<int> emptyRing{ emptyIL };
+		std::ring<int> emptyRing(emptyIL);
 	}
-	catch (std::length_error const&)
+	catch (std::invalid_argument const&)
 	{
 		caughtException = true;
 	}
@@ -87,10 +87,10 @@ void ring::test::ring_tests::test_copy_constructor() const
 {
 	//Create a ring
 	std::vector<int> ringInput{ 0, 1, 2, 3, 4, 5, 6 };
-	std::ring<int> r{ ringInput.begin(), ringInput.end() };
+	std::ring<int> r(ringInput.begin(), ringInput.end());
 
 	//Copy it
-	std::ring<int> ringCopied{ r };
+	std::ring<int> ringCopied(r);
 
 	//Check the size.
 	if (ringCopied.size() != r.size())
@@ -116,7 +116,7 @@ void ring::test::ring_tests::test_move_constructor() const
 {
 	//Create a ring.
 	std::vector<int> ringInput{ 0, 1, 2, 3, 4, 5, 6 };
-	std::ring<int> r{ ringInput.begin(), ringInput.end() };
+	std::ring<int> r(ringInput.begin(), ringInput.end());
 
 	//Move it
 	auto ringMoved = std::move(r);
@@ -157,7 +157,7 @@ void ring::test::ring_tests::test_advance() const
 {
 	//Create a ring.
 	std::vector<int> ringInput{ 0, 1, 2, 3, 4, 5, 6 };
-	std::ring<int> r{ ringInput.begin(), ringInput.end() };
+	std::ring<int> r(ringInput.begin(), ringInput.end());
 	for (auto expectedValue : ringInput)
 	{
 		auto actualValue = r.current();
@@ -179,7 +179,7 @@ void ring::test::ring_tests::test_retreat() const
 {
 	//Create a ring.
 	std::vector<int> ringInput{ 0, 1, 2, 3, 4, 5, 6 };
-	std::ring<int> r{ ringInput.begin(), ringInput.end() };
+	std::ring<int> r(ringInput.begin(), ringInput.end());
 
 	//Use retreat to iterate through the ring backwards.
 	for (auto inputIt = ringInput.rbegin();

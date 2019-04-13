@@ -6,7 +6,7 @@ namespace std
 	/*
 	 A ring holds a fixed number of elements and uses a pointer to indicate the
 	 current item. A ring must contain at least 1 element. Constructors check
-	 this requirement and throws std::length_error if there are 0 elements.
+	 this requirement and throws std::invalid_argument if there are 0 elements.
 	 The pointer can be advanced to access the next element in a clockwise
 	 order. A ring has does not have a first or last element. Continually
 	 advancing the ring pointer will bring the pointer back to where is
@@ -26,9 +26,15 @@ namespace std
 		/*
 		 Construct an empty ring with "capacity" slots.
 		 */
-		ring(size_t capacity)
+		ring(size_t capacity,
+			 const allocator_type& alloc = allocator_type()) :
+			m_current(0),
+			m_container(capacity, alloc)
 		{
-
+			if (capacity == 0)
+			{
+				throw std::invalid_argument("Ring size cannot be zero.");
+			}
 		}
 
 		/*
@@ -37,18 +43,29 @@ namespace std
 		template<class InputIterator>
 		ring(InputIterator first,
 			 InputIterator last,
-			 const allocator_type& alloc = allocator_type())
+			 const allocator_type& alloc = allocator_type()) :
+			m_current(0),
+			m_container(first, last)
 		{
-
+			if (first == last)
+			{
+				throw std::invalid_argument(
+					"The input iterator must have at least 1 item.");
+			}
 		}
 
 		/*
 		 Construct a ring using an initializer list.
 		 */
 		ring(initializer_list<value_type> il,
-			 const allocator_type& alloc = allocator_type())
+			 const allocator_type& alloc = allocator_type()) :
+			m_current(0),
+			m_container(il)
 		{
-
+			if (il.size() == 0)
+			{
+				throw std::invalid_argument("The initializer list cannot be empty.");
+			}
 		}
 
 		/*
@@ -72,7 +89,7 @@ namespace std
 		 */
 		void advance()
 		{
-
+			m_current = (m_current + 1) % m_container.size();
 		}
 
 		/*
@@ -81,7 +98,14 @@ namespace std
 		 */
 		void retreat()
 		{
-
+			if (m_current == 0)
+			{
+				m_current = m_container.size() - 1;
+			}
+			else
+			{
+				m_current--;
+			}
 		}
 
 		/*
@@ -90,7 +114,7 @@ namespace std
 		 */
 		size_t size() const noexcept
 		{
-			return 0;
+			return m_container.size();
 		}
 
 		/*
@@ -99,8 +123,7 @@ namespace std
 		 */
 		value_type& current()
 		{
-			value_type ret;
-			return ret;
+			return m_container[m_current];
 		}
 
 		/*
@@ -109,8 +132,7 @@ namespace std
 		 */
 		const value_type& current() const
 		{
-			value_type ret;
-			return ret;
+			return m_container[m_current];
 		}
 
 		private:
